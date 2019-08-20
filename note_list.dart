@@ -35,7 +35,7 @@ class NoteListState extends State<NoteList> {
       body: getNoteListView(),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          debugPrint(" 'Add new' clicked");
+          debugPrint(" Add new clicked");
           navigatToDetail(Note('','', 3),'Add Note');
         },
         tooltip: 'Add Note',
@@ -90,13 +90,13 @@ class NoteListState extends State<NoteList> {
   Icon getPriorityIcon(int priority){
     switch (priority){
       case 1: 
-        return Icon(Icons.arrow_left);
+        return Icon(Icons.arrow_forward_ios);
         break;
       case 2: 
-        return Icon(Icons.arrow_back);
+        return Icon(Icons.arrow_forward_ios);
         break;
       case 3: 
-        return Icon(Icons.arrow_back_ios);
+        return Icon(Icons.arrow_forward_ios);
         break;
     }
   }
@@ -118,7 +118,7 @@ class NoteListState extends State<NoteList> {
 
 
   void _delete(BuildContext contex, Note note) async{
-    int result = await databaseHelper.deleteNode(note.id);
+    int result = await databaseHelper.deleteDate(note.id);
     if(result != 0){
       _showSnackBar(contex, 'Note deleted successfully...');
       updateListView();

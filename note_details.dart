@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:to_do_app/screen/note_list.dart';
-import 'dart:async';
 import 'package:to_do_app/model/note.dart';
 import 'package:to_do_app/utils/databse_helper.dart';
 import 'package:intl/intl.dart';
@@ -235,7 +233,7 @@ class NoteDetailState extends State<StatefulWidget>{
       return;
     } 
 //  delete old note
-    int result = await helper.deleteNode(note.id);
+    int result = await helper.deleteDate(note.id);
     
     if(result != 0){
       _showAlert('Statu','Note delete successfully');
@@ -259,4 +257,4 @@ class NoteDetailState extends State<StatefulWidget>{
     Navigator.pop(context, true);
   }
 
-}
+} 

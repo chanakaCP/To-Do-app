@@ -12,8 +12,8 @@ class DatabaseHelper {
   String noteTable = 'note_table';
   String colId = 'id';
   String colTitle = 'title';
-  String colDescription = 'description';
-  String colPriority = 'proirity';
+  String colDescription = 'desc';
+  String colPriority = 'priority';
   String colDate = 'date';
 
   DatabaseHelper._createInstence();
@@ -41,11 +41,11 @@ class DatabaseHelper {
   }
 
   void _createDb(Database db, int newVersion) async{
-    await db.execute('CREATE TABLE $noteTable ($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colTitle TEXT $colDescription TEXT, $colPriority INTEGER, $colDate TEXT )');
+    await db.execute('CREATE TABLE "note_table" (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT, desc TEXT, priority INTEGER, date TEXT )');
   }
 
 // get data from database
-  Future<List<Map<String, dynamic>>> getDataToMap () async{
+  Future<List<Map<String, dynamic>>> getDataToMap() async{
     Database db = await this.database;
     var result = await db.rawQuery('SELECT * FROM $noteTable ORDER BY $colPriority ASC');
     return result;
@@ -57,7 +57,7 @@ class DatabaseHelper {
     var result = await db.insert(noteTable, note.toMap());
     return result;
   }
-
+ 
 // update data 
   Future<int> updateData(Note note) async{
     Database db = await this.database;
@@ -66,7 +66,7 @@ class DatabaseHelper {
   }
 
 // delete date
-  Future<int> deleteNode(int id) async{
+  Future<int> deleteDate(int id) async{
     Database db = await this.database;
     var result = await db.rawDelete('DELETE FROM $noteTable WHERE $colId = $id');
     return result;
@@ -79,4 +79,18 @@ class DatabaseHelper {
     int result = Sqflite.firstIntValue(x);
     return result;
   }
+
+// get MAP LIST to NOTE LIST
+  Future<List<Note>> getNoteList() async{
+    var noteMapList = await getDataToMap(); // get map list from database
+    int count = noteMapList.length; // count the number of map entries in database
+    List<Note> noteList = List<Note>();
+    
+    for(int i = 0; i < count; i++){
+      noteList.add(Note.fromMapObject(noteMapList[i]));
+    }
+    return noteList;
+  }
+
+
 }
